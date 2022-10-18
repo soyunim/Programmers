@@ -14,7 +14,5 @@ function solution(n, words) {
             
         }
     }
-
-
     return answer;
 }
