@@ -1,18 +1,19 @@
 function solution(n, words) {
     var answer = [0,0];
 
-    for(let i=0; i<words.length-1; i++){
-        for(let j=i+1; j<words.length; j++){
-            let last = words[j-1].split('');
-            let first = words[j].split('');
-            
-            if(words[i]==words[j] || last[last.length-1]!=first[0]){
-                let who=j%n+1;
-                let when=Math.ceil((j+1)/n);
-                answer=[who, when];
+    for(let i=0; i<words.length; i++){
+        let alre = words[i];
+        let who = (i%n)+1;
+        let when = Math.ceil((i+1)/n);
+        if(i>0){
+            let last = words[i-1].split("");
+            if(i>words.indexOf(alre) || last[last.length-1]!=words[i][0]){
+                answer=[who,when];
+                break;
             }
-            
         }
+        
     }
+    
     return answer;
 }
