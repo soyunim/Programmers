@@ -1,50 +1,45 @@
 function solution(begin, target, words) {
-    const queue = [begin]; 
-    const visted = new Array(words.length).fill(false);
-	let answer = 1;
-    let queueLeng = 1;
+    let answer = 1;
     
-    function checkNext(w1, w2){
-        let matches = 0;
-
-        for(let i=0; i<w1.length; i++){
-            if(w1[i] !== w2[i]) matches++;
-            if(matches > 1) return false;
+    const visited = [];
+    const queue = [begin];
+    let queueLen = 1;
+    
+    function checked(str1, str2){
+        let cnt = 0;
+        
+        for(let i=0; i<str1.length; i++){
+            if(str1[i] !== str2[i]) cnt++;
         }
-
-        return true;
+        
+        return cnt === 1 ? true : false;
     }
     
-    // 존재하지 않는 경우
-    if(words.indexOf(target) === -1) return 0;
+    if(!words.includes(target)) return 0;
     
-    // 존재하는 경우
-    while(queue.length > 0){
-        let now = queue.shift();
-        queueLeng--;
+    while(queue.length){
+        const now = queue.shift();
+        queueLen--;
         
         for(let i=0; i<words.length; i++){
-            if(checkNext(words[i], now)){
+            if(checked(now, words[i])){
                 if(words[i] === target){
                     return answer;
                 }
                 
-                if(!visted[i]){
-                    visted[i] = true;
+                if(!visited.includes(words[i])){
+                    visited.push(now);
                     queue.push(words[i]);
                 }
             }
         }
         
-        // 아래로 파고 들어가는 게 아니라 옆으로(너비) 탐색을 하기 때문에 
-        if(queueLeng === 0) {
+        if(queueLen === 0){
             answer++;
-            queueLeng = queue.length;
+            queueLen = queue.length;
         }
+        
     }
-
-
+    
     return answer;
 }
-
-    
